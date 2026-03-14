@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BEAUTER">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f9c8d8">
+<title>Calendário BEAUTER – 30 Dias</title>
+
+<!-- PWA Icon via SVG data URI -->
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIiBmaWxsPSIjZjljOGQ4Ii8+PHRleHQgeD0iOTAiIHk9IjExNSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiNjOWE4NGMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPkI8L3RleHQ+PC9zdmc+">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIiBmaWxsPSIjZjljOGQ4Ii8+PHRleHQgeD0iOTAiIHk9IjExNSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiNjOWE4NGMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPkI8L3RleHQ+PC9zdmc+">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Nunito:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --rose: #f9c8d8;
+  --rose-deep: #f0a0be;
+  --rose-pale: #fdeef4;
+  --rose-mid: #f5d5e4;
+  --bege: #fdf5ec;
+  --bege2: #f5e8d5;
+  --bege3: #ecdcc4;
+  --gold: #c9a84c;
+  --gold-light: #e4c97e;
+  --gold-pale: #f7eed8;
+  --gold-dark: #8a6820;
+  --text: #4a2c3a;
+  --text-soft: #8a6070;
+  --white: #ffffff;
+  --radius: 24px;
+  --radius-sm: 14px;
+  --shadow: 0 8px 40px rgba(201,168,76,0.13), 0 2px 12px rgba(249,200,216,0.25);
+  --shadow-card: 0 4px 24px rgba(201,168,76,0.10), 0 2px 8px rgba(249,200,216,0.20);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bege);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════
+   SPLASH SCREEN
+═══════════════════════════════ */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(145deg, #fdeef4 0%, #f9c8d8 45%, #f5e0ce 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: opacity 1.4s ease, visibility 1.4s ease, transform 1.6s cubic-bezier(0.4,0,0.15,1);
+  overflow: hidden;
+}
+#splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-100%); }
+
+#splash-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.splash-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.splash-ornament {
+  animation: pulseIn 0.6s ease both;
+}
+.splash-top-word {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 7vw, 44px);
+  font-weight: 700;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulseIn 0.7s 0.15s ease both;
+}
+.splash-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(68px, 18vw, 110px);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 8px;
+  line-height: 0.9;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 16px rgba(201,168,76,0.4));
+  animation: pulseIn 0.7s 0.25s ease both;
+}
+.splash-sub {
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  letter-spacing: 6px;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  animation: pulseIn 0.7s 0.4s ease both;
+}
+.splash-divider {
+  display: flex; align-items: center; gap: 12px;
+  animation: pulseIn 0.7s 0.5s ease both;
+}
+.splash-divider-line {
+  width: 50px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.splash-divider-line:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+.splash-heart {
+  animation: pulseIn 0.7s ease both;
+  filter: drop-shadow(0 4px 18px rgba(201,168,76,0.35));
+}
+.splash-by {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 4vw, 22px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-soft);
+  letter-spacing: 2px;
+  animation: pulseIn 0.7s 0.55s ease both;
+}
+
+  width: 140px;
+  height: 2px;
+  background: rgba(201,168,76,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: pulseIn 0.7s 0.6s ease both;
+  margin-top: 4px;
+}
+.splash-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  border-radius: 10px;
+  animation: fillBar 1.5s 0.3s ease forwards;
+  width: 0;
+}
+@keyframes fillBar { from{width:0} to{width:100%} }
+@keyframes pulseIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+/* ═══════════════════════════════
+   SPARKLE CANVAS
+═══════════════════════════════ */
+#sparkle-canvas {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px 80px;
+  background: linear-gradient(160deg, #fdeef4 0%, #f9c8d8 35%, #f5e8d5 70%, #fdf5ec 100%);
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 25%, rgba(201,168,76,0.10) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 45% at 85% 75%, rgba(249,200,216,0.45) 0%, transparent 65%);
+}
+.hero-ornament-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+  animation: floatY 5s ease-in-out infinite;
+}
+.hero-ornament-row svg { flex-shrink: 0; }
+@keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+
+/* Two-line title: CALENDÁRIO (normal) + BEAUTER (italic bold) */
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
+  line-height: 1;
+  position: relative;
+}
+.hero-title-top {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 9vw, 72px);
+  font-weight: 700;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(201,168,76,0.25));
+}
+.hero-title-main {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(84px, 19vw, 150px);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 10px;
+  line-height: 0.9;
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 45%, var(--gold-light) 80%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 3px 12px rgba(201,168,76,0.35));
+}
+.hero-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 26px 0;
+}
+.hero-divider-line {
+  width: 70px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.hero-divider-line:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+.hero-divider-gem { color: var(--gold); font-size: 12px; }
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 4.5vw, 30px);
+  font-style: italic;
+  color: var(--text-soft);
+  max-width: 580px;
+  line-height: 1.75;
+  margin-bottom: 40px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+  color: white;
+  padding: 13px 36px;
+  border-radius: 50px;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  box-shadow: 0 6px 24px rgba(201,168,76,0.35);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%,100%{box-shadow:0 6px 24px rgba(201,168,76,0.35)}
+  50%{box-shadow:0 8px 32px rgba(201,168,76,0.55),0 0 0 6px rgba(201,168,76,0.08)}
+}
+
+/* ═══════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════ */
+.section {
+  position: relative;
+  z-index: 2;
+  padding: 56px 20px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 400;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+.section-title em { color: var(--gold-dark); font-style: italic; font-size: 120%; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+  color: white;
+  padding: 13px 36px;
+  border-radius: 50px;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  box-shadow: 0 6px 24px rgba(201,168,76,0.35);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%,100%{box-shadow:0 6px 24px rgba(201,168,76,0.35)}
+  50%{box-shadow:0 8px 32px rgba(201,168,76,0.55),0 0 0 6px rgba(201,168,76,0.08)}
+}
+
+/* ═══════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════ */
+.section {
+  position: relative;
+  z-index: 2;
+  padding: 56px 20px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.gold-dots {
+  text-align: center;
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 8px;
+  margin-bottom: 36px;
+}
+
+/* ═══════════════════════════════
+   ACCORDION BUTTONS (Aulas / Antes de Começar / etc.)
+═══════════════════════════════ */
+.aulas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+@media(max-width:580px){ .aulas-grid{grid-template-columns:1fr;} }
+
+.aula-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 55%, var(--gold-light) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 6px 24px rgba(201,168,76,0.3);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+}
+.aula-btn::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.18),transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+  border-radius:inherit;
+}
+.aula-btn:hover,.aula-btn:active { transform:translateY(-3px); box-shadow:0 12px 36px rgba(201,168,76,0.40); }
+.aula-btn:hover::before { opacity:1; }
+.aula-btn-icon { font-size:26px; flex-shrink:0; }
+.aula-btn-texts { flex:1; }
+.aula-btn-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; opacity:0.8; margin-bottom:4px; }
+.aula-btn-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; line-height:1.3; }
+
+/* ═══════════════════════════════
+   ACCORDION SECTIONS
+═══════════════════════════════ */
+.accordion {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 16px;
+  overflow: hidden;
+  border: 1.5px solid rgba(249,200,216,0.6);
+}
+.accordion-trigger {
+  width: 100%;
+  background: linear-gradient(135deg, #fdeef4, #fff0f6, #fdf5ec);
+  border: none;
+  cursor: pointer;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: var(--radius);
+  transition: background 0.3s;
+}
+.accordion-trigger:hover { background: linear-gradient(135deg, #f9d5e5, #fde8f2, #fdf0e5); }
+.accordion-trigger-left { display:flex; align-items:center; gap:14px; }
+.accordion-trigger-icon { font-size:24px; }
+.accordion-trigger-texts { text-align:left; }
+.accordion-trigger-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-dark); margin-bottom:3px; }
+.accordion-trigger-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; color:var(--text); }
+.accordion-arrow {
+  width:30px; height:30px;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color:white; font-size:12px;
+  transition:transform 0.35s;
+  flex-shrink:0;
+}
+.accordion.open .accordion-arrow { transform:rotate(180deg); }
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.accordion.open .accordion-body { max-height: 2000px; }
+.accordion-content {
+  padding: 8px 28px 28px;
+}
+.accordion-content p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+}
+.accordion-content strong { color: var(--gold-dark); font-weight:600; }
+.accordion-content em { font-style:italic; color:var(--text); font-size: 108%; }
+
+/* Prep grid inside accordion */
+.prep-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+@media(max-width:640px){.prep-grid{grid-template-columns:1fr;}}
+.prep-card {
+  background: linear-gradient(145deg, #fdeef4, #fff9f5);
+  border: 1.5px solid rgba(249,200,216,0.7);
+  border-radius: var(--radius-sm);
+  padding: 20px 18px;
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.prep-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-card);}
+.prep-icon{font-size:26px;margin-bottom:10px;display:block;}
+.prep-card h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gold-dark);margin-bottom:8px;}
+.prep-card p,.prep-card li{font-size:16px;line-height:1.7;color:var(--text-soft);}
+.prep-card ul{list-style:none;}
+.prep-card li{padding:3px 0;}
+.prep-card li::before{content:'🌸 ';font-size:12px;}
+
+/* ═══════════════════════════════
+   CALENDÁRIO
+═══════════════════════════════ */
+.calendar-wrapper {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(160deg, #fdeef4 0%, #fdf5ec 50%, #f5e8d5 100%);
+  padding: 60px 16px 72px;
+}
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+@media(max-width:520px){
+  .days-grid{grid-template-columns:1fr;}
+}
+
+/* Day color palette — soft & sophisticated */
+.day-colors-list {
+  --dc0:#e8a0b0; --dc1:#e8b87a; --dc2:#b8d48a; --dc3:#7ec4d4;
+  --dc4:#a0b4e8; --dc5:#c4a0e0; --dc6:#e8c47a;
+}
+
+.day-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  border: 1.5px solid rgba(249,200,216,0.5);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s;
+  cursor: pointer;
+}
+.day-card:hover { transform:translateY(-4px) scale(1.01); box-shadow:0 12px 40px rgba(201,168,76,0.18),0 4px 16px rgba(249,200,216,0.3); }
+.day-card.open { border-color:rgba(201,168,76,0.4); }
+
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  user-select: none;
+}
+.day-num {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+.day-meta { flex:1; }
+.day-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  opacity:0.7;
+}
+.day-arrow {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: white;
+  transition: transform 0.35s, background 0.3s;
+  flex-shrink:0;
+}
+.day-card.open .day-arrow {
+  transform: rotate(180deg);
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+}
+
+.day-phrase {
+  padding: 0 18px 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-style: italic;
+  color: var(--text-soft);
+  line-height: 1.6;
+  border-bottom: 1px dashed rgba(201,168,76,0.2);
+}
+
+.day-tasks-wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.day-card.open .day-tasks-wrap { max-height: 1000px; }
+
+.task-section {
+  padding: 10px 18px 4px;
+}
+.task-section-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* ── CHECKBOX — cross-platform ── */
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+.task-item:active { opacity:0.7; }
+
+.task-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid rgba(201,168,76,0.45);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.22s;
+  margin-top: 1px;
+  /* critical for iOS */
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.task-checkbox:checked {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+  border-color: var(--gold);
+}
+.task-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  width: 100%;
+}
+.task-item.done .task-text {
+  text-decoration: line-through;
+  color: rgba(138,96,112,0.45);
+}
+.task-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  flex:1;
+}
+
+.day-done-bar {
+  height: 4px;
+  background: rgba(201,168,76,0.1);
+  margin: 12px 18px 16px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.day-done-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  border-radius: 10px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════
+   PROGRESS
+═══════════════════════════════ */
+.progress-section {
+  position: relative;
+  z-index: 2;
+  padding: 60px 20px;
+  text-align: center;
+  background: white;
+}
+.progress-circle-wrap {
+  position: relative;
+  width: 190px; height: 190px;
+  margin: 0 auto 36px;
+}
+.progress-circle-wrap svg { transform:rotate(-90deg); }
+.progress-bg { fill:none; stroke:rgba(249,200,216,0.4); stroke-width:10; }
+.progress-arc {
+  fill:none;
+  stroke:url(#goldGrad);
+  stroke-width:10;
+  stroke-linecap:round;
+  stroke-dasharray:534;
+  stroke-dashoffset:534;
+  transition:stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+.progress-text-center {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.progress-pct {
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px; font-weight:300;
+  color:var(--gold-dark);
+  line-height:1;
+}
+.progress-lbl-sm {
+  font-size:9px; letter-spacing:3px;
+  color:var(--text-soft); text-transform:uppercase;
+  margin-top:4px;
+}
+.progress-stats {
+  display:flex; justify-content:center;
+  gap:40px; flex-wrap:wrap;
+}
+.stat-item { text-align:center; }
+.stat-num { font-family:'Cormorant Garamond',serif; font-size:38px; color:var(--gold-dark); line-height:1; }
+.stat-lbl { font-size:9px; letter-spacing:2px; color:var(--text-soft); text-transform:uppercase; margin-top:4px; }
+
+/* ═══════════════════════════════
+   BANNER CONCLUSIVO
+═══════════════════════════════ */
+.banner-section {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(145deg, #2d1520 0%, #3d2228 40%, #291a14 100%);
+  padding: 80px 24px;
+  overflow: hidden;
+}
+.banner-section::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 55% 60% at 15% 50%, rgba(249,200,216,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 50% at 85% 50%, rgba(201,168,76,0.10) 0%, transparent 60%);
+}
+.banner-inner { max-width:720px; margin:0 auto; text-align:center; position:relative; }
+.banner-ornament { font-size:10px; letter-spacing:8px; color:var(--gold); text-transform:uppercase; margin-bottom:24px; opacity:0.85; }
+.banner-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,6vw,56px);
+  font-weight:300; color:white;
+  line-height:1.25; margin-bottom:30px; letter-spacing:2px;
+}
+.banner-title em { color:var(--gold-light); }
+.banner-divider { width:80px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:0 auto 32px; }
+.banner-text { font-family:'Cormorant Garamond',serif; font-size:18px; color:rgba(255,255,255,0.75); line-height:1.9; margin-bottom:16px; }
+.banner-highlight {
+  font-family:'Cormorant Garamond',serif;
+  font-size:25px; color:var(--gold-light); font-style:italic;
+  line-height:1.8; margin:32px 0;
+  padding:24px 28px;
+  border-left:2px solid var(--gold);
+  border-right:2px solid var(--gold);
+  background:rgba(201,168,76,0.07);
+  border-radius:var(--radius-sm);
+  text-align:left;
+}
+.banner-cta-text { font-size:10px; letter-spacing:5px; color:var(--gold); text-transform:uppercase; margin-top:40px; }
+
+/* ═══════════════════════════════
+   SOCIAL
+═══════════════════════════════ */
+.social-section {
+  position:relative; z-index:2;
+  padding:60px 20px;
+  text-align:center;
+  background:linear-gradient(160deg,#fdeef4,#fdf5ec);
+}
+.social-links {
+  display:flex; justify-content:center;
+  gap:20px; margin-top:32px; flex-wrap:wrap;
+}
+.social-btn {
+  display:flex; align-items:center; gap:12px;
+  padding:16px 36px;
+  text-decoration:none;
+  font-family:'Nunito',sans-serif;
+  font-size:11px; letter-spacing:3px; text-transform:uppercase; font-weight:700;
+  border-radius:50px;
+  transition:transform 0.3s, box-shadow 0.3s;
+  position:relative; overflow:hidden;
+  background:transparent;
+}
+/* Dourado vazado */
+.social-btn.instagram {
+  border:2px solid var(--gold);
+  color:var(--gold-dark);
+  box-shadow:0 4px 16px rgba(201,168,76,0.18);
+}
+.social-btn.instagram::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+  opacity:0; transition:opacity 0.3s; border-radius:inherit;
+}
+.social-btn.instagram:hover::before { opacity:1; }
+.social-btn.instagram:hover { color:white; box-shadow:0 8px 28px rgba(201,168,76,0.4); transform:translateY(-3px); }
+
+.social-btn.tiktok {
+  border:2px solid var(--gold);
+  color:var(--gold-dark);
+  box-shadow:0 4px 16px rgba(201,168,76,0.18);
+}
+.social-btn.tiktok::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+  opacity:0; transition:opacity 0.3s; border-radius:inherit;
+}
+.social-btn.tiktok:hover::before { opacity:1; }
+.social-btn.tiktok:hover { color:white; box-shadow:0 8px 28px rgba(201,168,76,0.4); transform:translateY(-3px); }
+
+.social-btn-icon { font-size:18px; position:relative; z-index:1; }
+.social-btn-label { position:relative; z-index:1; }
+
+/* ═══════════════════════════════
+   UNIVERSO BTN
+═══════════════════════════════ */
+.universo-section {
+  position:relative; z-index:2;
+  padding:48px 20px 60px;
+  text-align:center;
+  background:#fdf5ec;
+}
+.universo-btn {
+  display:inline-flex; align-items:center; gap:16px;
+  padding:20px 56px;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+  color:white;
+  text-decoration:none;
+  font-family:'Nunito',sans-serif;
+  font-size:11px; letter-spacing:5px; text-transform:uppercase; font-weight:700;
+  border-radius:50px;
+  box-shadow:0 8px 32px rgba(201,168,76,0.4);
+  transition:transform 0.3s,box-shadow 0.3s;
+  position:relative; overflow:hidden;
+}
+.universo-btn::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.22),transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.universo-btn:hover { transform:translateY(-5px); box-shadow:0 16px 50px rgba(201,168,76,0.5); }
+.universo-btn:hover::before { opacity:1; }
+.universo-btn-icon { font-size:20px; }
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+footer {
+  position:relative; z-index:2;
+  padding:28px 20px;
+  text-align:center;
+  background:var(--text);
+  color:rgba(255,255,255,0.45);
+  font-size:11px; letter-spacing:4px; text-transform:uppercase;
+}
+footer span { color:var(--gold-light); }
+
+/* ═══════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════ */
+.reveal { opacity:0; transform:translateY(36px); transition:opacity 0.75s ease,transform 0.75s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-d1{transition-delay:0.1s} .reveal-d2{transition-delay:0.2s}
+.reveal-d3{transition-delay:0.3s} .reveal-d4{transition-delay:0.4s}
+
+/* ═══════════════════════════════
+   BANNER UNIVERSO BEAUTER
+═══════════════════════════════ */
+.universo-banner-section {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(150deg, #fdf8f0 0%, #fdeef4 40%, #fdf5ec 100%);
+  padding: 72px 24px 80px;
+  overflow: hidden;
+  text-align: center;
+}
+.universo-banner-section::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 30%, rgba(201,168,76,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 45% at 90% 70%, rgba(249,200,216,0.35) 0%, transparent 65%);
+  pointer-events:none;
+}
+.univ-banner-frame {
+  position: relative;
+  max-width: 580px;
+  margin: 0 auto;
+  border: 1.5px solid rgba(201,168,76,0.35);
+  border-radius: 28px;
+  padding: 52px 40px 48px;
+  background: rgba(255,255,255,0.75);
+  box-shadow: 0 8px 48px rgba(201,168,76,0.10), 0 2px 16px rgba(249,200,216,0.22);
+}
+/* corner ornaments */
+.univ-banner-frame::before,
+.univ-banner-frame::after {
+  content: '';
+  position: absolute;
+  width: 28px; height: 28px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.55;
+}
+.univ-banner-frame::before { top:12px; left:12px; border-width:1.5px 0 0 1.5px; border-radius:6px 0 0 0; }
+.univ-banner-frame::after  { bottom:12px; right:12px; border-width:0 1.5px 1.5px 0; border-radius:0 0 6px 0; }
+.univ-corner-tr, .univ-corner-bl {
+  position:absolute;
+  width:28px; height:28px;
+  border-color:var(--gold);
+  border-style:solid;
+  opacity:0.55;
+}
+.univ-corner-tr { top:12px; right:12px; border-width:1.5px 1.5px 0 0; border-radius:0 6px 0 0; }
+.univ-corner-bl { bottom:12px; left:12px; border-width:0 0 1.5px 1.5px; border-radius:0 0 0 6px; }
+
+.univ-banner-eyebrow {
+  font-family:'Nunito',sans-serif;
+  font-size:9px; letter-spacing:6px; text-transform:uppercase;
+  color:var(--gold-dark); margin-bottom:28px; opacity:0.85;
+}
+.univ-banner-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(26px,5.5vw,40px);
+  font-weight:700;
+  background: linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1.25; margin-bottom:22px;
+}
+.univ-banner-body {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(17px,3.5vw,21px);
+  font-style:italic;
+  color:var(--text-soft);
+  line-height:1.75;
+  margin-bottom:36px;
+}
+.univ-banner-body strong { font-style:normal; color:var(--gold-dark); }
+.univ-banner-divider {
+  width:60px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:0 auto 32px;
+}
+.univ-banner-btn {
+  display:inline-flex; align-items:center; gap:14px;
+  padding:18px 48px;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+  color:#2d1a00;
+  text-decoration:none;
+  font-family:'Nunito',sans-serif;
+  font-size:10px; letter-spacing:4px; text-transform:uppercase; font-weight:800;
+  border-radius:50px;
+  box-shadow:0 8px 32px rgba(201,168,76,0.38);
+  transition:transform 0.3s,box-shadow 0.3s;
+  position:relative; overflow:hidden;
+}
+.univ-banner-btn::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.25),transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.univ-banner-btn:hover { transform:translateY(-5px); box-shadow:0 16px 50px rgba(201,168,76,0.52); }
+.univ-banner-btn:hover::before { opacity:1; }
+.univ-banner-btn-gem { font-size:16px; }
+.univ-banner-footer {
+  margin-top:28px;
+  font-family:'Nunito',sans-serif;
+  font-size:9px; letter-spacing:5px; text-transform:uppercase;
+  color:var(--gold); opacity:0.75;
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <canvas id="splash-canvas"></canvas>
+  <div class="splash-content">
+
+    <!-- Coração dourado vazado grande -->
+    <div class="splash-heart">
+      <svg width="120" height="110" viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#8a6820"/>
+            <stop offset="40%" stop-color="#c9a84c"/>
+            <stop offset="70%" stop-color="#e4c97e"/>
+            <stop offset="100%" stop-color="#c9a84c"/>
+          </linearGradient>
+        </defs>
+        <path d="M60 98 C60 98 8 62 8 32 C8 16 20 6 34 6 C44 6 53 12 60 20 C67 12 76 6 86 6 C100 6 112 16 112 32 C112 62 60 98 60 98 Z"
+              stroke="url(#hg)" stroke-width="3.5" fill="none" stroke-linejoin="round"/>
+        <!-- inner glow line -->
+        <path d="M60 88 C60 88 16 56 16 32 C16 20 26 14 34 14 C44 14 52 20 60 30 C68 20 76 14 86 14 C94 14 104 20 104 32 C104 56 60 88 60 88 Z"
+              stroke="url(#hg)" stroke-width="1" fill="none" opacity="0.35"/>
+      </svg>
+    </div>
+
+    <div class="splash-top-word">Calendário</div>
+    <div class="splash-logo">Beauter</div>
+
+    <div class="splash-divider">
+      <div class="splash-divider-line"></div>
+      <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0L6.2 3.6L10 5L6.2 6.4L5 10L3.8 6.4L0 5L3.8 3.6Z" fill="#c9a84c" opacity="0.7"/></svg>
+      <div class="splash-divider-line"></div>
+    </div>
+
+    <div class="splash-by">por Angela Moraes</div>
+    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+  </div>
+</div>
+
+<canvas id="sparkle-canvas"></canvas>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ornament-row reveal">
+    <svg width="72" height="36" viewBox="0 0 72 36" fill="none">
+      <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8a6820"/><stop offset="100%" stop-color="#e4c97e"/></linearGradient></defs>
+      <path d="M4 32 C16 22 34 12 60 8" stroke="url(#lg1)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M18 28 C24 20 36 14 50 12" stroke="url(#lg1)" stroke-width="0.9" stroke-linecap="round" opacity="0.6"/>
+      <ellipse cx="28" cy="18" rx="5" ry="3" transform="rotate(-30 28 18)" fill="rgba(201,168,76,0.18)" stroke="url(#lg1)" stroke-width="0.8"/>
+      <ellipse cx="44" cy="12" rx="4" ry="2.5" transform="rotate(-20 44 12)" fill="rgba(201,168,76,0.14)" stroke="url(#lg1)" stroke-width="0.8"/>
+      <circle cx="60" cy="8" r="2" fill="#c9a84c" opacity="0.7"/>
+    </svg>
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8a6820"/><stop offset="100%" stop-color="#e4c97e"/></linearGradient></defs>
+      <path d="M14 1 L15.8 11.5 L26 14 L15.8 16.5 L14 27 L12.2 16.5 L2 14 L12.2 11.5 Z" fill="url(#lg2)" opacity="0.85"/>
+    </svg>
+    <svg width="72" height="36" viewBox="0 0 72 36" fill="none" style="transform:scaleX(-1)">
+      <defs><linearGradient id="lg3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8a6820"/><stop offset="100%" stop-color="#e4c97e"/></linearGradient></defs>
+      <path d="M4 32 C16 22 34 12 60 8" stroke="url(#lg3)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M18 28 C24 20 36 14 50 12" stroke="url(#lg3)" stroke-width="0.9" stroke-linecap="round" opacity="0.6"/>
+      <ellipse cx="28" cy="18" rx="5" ry="3" transform="rotate(-30 28 18)" fill="rgba(201,168,76,0.18)" stroke="url(#lg3)" stroke-width="0.8"/>
+      <ellipse cx="44" cy="12" rx="4" ry="2.5" transform="rotate(-20 44 12)" fill="rgba(201,168,76,0.14)" stroke="url(#lg3)" stroke-width="0.8"/>
+      <circle cx="60" cy="8" r="2" fill="#c9a84c" opacity="0.7"/>
+    </svg>
+  </div>
+  <h1 class="hero-title reveal reveal-d1">
+    <span class="hero-title-top">Calendário</span>
+    <span class="hero-title-main">Beauter</span>
+  </h1>
+  <div class="hero-divider reveal reveal-d2">
+    <div class="hero-divider-line"></div>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 0L8.2 5.5L14 7L8.2 8.5L7 14L5.8 8.5L0 7L5.8 5.5Z" fill="#c9a84c" opacity="0.8"/></svg>
+    <div class="hero-divider-line"></div>
+  </div>
+  <p class="hero-sub reveal reveal-d3">
+    O plano de 30 dias para transformar seu Instagram em uma vitrine que atrai seguidoras e clientes
+  </p>
+  <div class="hero-badge reveal reveal-d4">✦ &nbsp; desafio interativo &nbsp; ✦</div>
+</section>
+
+<!-- ANTES DE COMEÇAR ACCORDION -->
+<div class="section" style="padding-top:0; padding-bottom:12px;">
+  <div class="accordion reveal" id="acc-inicio">
+    <button class="accordion-trigger" onclick="toggleAccordion('acc-inicio')">
+      <div class="accordion-trigger-left">
+        <span class="accordion-trigger-icon">🌷</span>
+        <div class="accordion-trigger-texts">
+          <div class="accordion-trigger-label">leia antes de começar</div>
+          <div class="accordion-trigger-title">Antes de Começar</div>
+        </div>
+      </div>
+      <div class="accordion-arrow">▼</div>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <p>Se você quer se tornar uma BEAUTER disputada, precisa entender algo muito importante.</p>
+        <p><strong>Clientes escolhem profissionais que parecem confiáveis e presentes.</strong></p>
+        <p>E no Instagram isso acontece quando você mostra três coisas: seu trabalho, seu conhecimento e sua rotina profissional.</p>
+        <p>Quando uma cliente entra no seu perfil ela pensa: <em>Essa profissional realmente trabalha com isso? Ela entende do que faz? Eu confiaria em fazer esse procedimento com ela?</em></p>
+        <p>Por isso seu Instagram precisa parecer uma <strong>vitrine viva</strong> do seu trabalho.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PERFIL ACCORDION -->
+<div class="section" style="padding-top:0; padding-bottom:12px;" id="acc-perfil-anchor">
+  <div class="accordion reveal" id="acc-perfil">
+    <button class="accordion-trigger" onclick="toggleAccordion('acc-perfil')">
+      <div class="accordion-trigger-left">
+        <span class="accordion-trigger-icon">📸</span>
+        <div class="accordion-trigger-texts">
+          <div class="accordion-trigger-label">aula 01</div>
+          <div class="accordion-trigger-title">Organização do Perfil</div>
+        </div>
+      </div>
+      <div class="accordion-arrow">▼</div>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <p>Antes de começar o desafio, organize <strong>três pontos importantes</strong> no seu perfil.</p>
+        <div class="prep-grid">
+          <div class="prep-card">
+            <span class="prep-icon">📷</span>
+            <h3>Foto de Perfil</h3>
+            <p>Use uma foto clara mostrando seu rosto. Evite fotos escuras, muito distantes ou com filtros exagerados.</p>
+          </div>
+          <div class="prep-card">
+            <span class="prep-icon">✍️</span>
+            <h3>Nome + Nicho + Cidade</h3>
+            <p>Isso ajuda o Instagram a entregar seu perfil para pessoas da sua região.</p>
+            <ul>
+              <li>Juliana | Cabeleireira em Ferraz</li>
+              <li>Carla | Designer de Sobrancelhas SP</li>
+              <li>Ana | Manicure em Guarulhos</li>
+              <li>Marina | Esteticista em Campinas</li>
+            </ul>
+          </div>
+          <div class="prep-card">
+            <span class="prep-icon">💬</span>
+            <h3>Bio Simples e Clara</h3>
+            <p>Responda: <strong>o que você faz · onde atende · como agendar.</strong></p>
+            <br>
+            <p><em>Especialista em unhas delicadas<br>Atendimento em Ferraz<br>Agendamentos no WhatsApp ↓</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORGANIZAÇÃO ACCORDION -->
+<div class="section" style="padding-top:0; padding-bottom:40px;" id="acc-org-anchor">
+  <div class="accordion reveal" id="acc-org">
+    <button class="accordion-trigger" onclick="toggleAccordion('acc-org')">
+      <div class="accordion-trigger-left">
+        <span class="accordion-trigger-icon">✨</span>
+        <div class="accordion-trigger-texts">
+          <div class="accordion-trigger-label">aula 02</div>
+          <div class="accordion-trigger-title">Organização BEAUTER</div>
+        </div>
+      </div>
+      <div class="accordion-arrow">▼</div>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <p>Se você quiser crescer no Instagram sem se sentir sobrecarregada, precisa aprender uma coisa que profissionais inteligentes fazem: <strong>elas se organizam antes.</strong></p>
+        <p>Use o <strong>dia de folga</strong> para adiantar conteúdo. Crie de 2 a 3 carrosséis educativos: <em>cuidados após o procedimento, erros que fazem o resultado durar menos, como manter o resultado bonito por mais tempo.</em></p>
+        <p>Sempre que gravar stories mostrando procedimentos ou bastidores, <strong>salve esses vídeos</strong>. Depois você pode juntar e transformar em reels de transformação, bastidores ou processo do atendimento.</p>
+        <p>Lembre-se: <strong>você não precisa gravar algo perfeito.</strong> Você precisa mostrar o trabalho que já faz todos os dias. 🌸</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDÁRIO -->
+<div class="calendar-wrapper day-colors-list">
+  <div style="max-width:860px;margin:0 auto;text-align:center;padding-bottom:40px;">
+    <h2 class="section-title reveal" style="margin-bottom:10px;">Desafio <em>30 Dias</em></h2>
+    <p class="gold-dots reveal">✦ ✦ ✦</p>
+    <p class="reveal" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-soft);font-size:19px;">Toque em cada dia para abrir as tarefas 🌸</p>
+  </div>
+  <div class="days-grid" id="daysGrid"></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <h2 class="section-title reveal">Seu <em>Progresso</em></h2>
+  <p class="gold-dots reveal">✦ ✦ ✦</p>
+  <div class="progress-circle-wrap reveal">
+    <svg width="190" height="190" viewBox="0 0 190 190">
+      <defs>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#8a6820"/>
+          <stop offset="50%" stop-color="#c9a84c"/>
+          <stop offset="100%" stop-color="#e4c97e"/>
+        </linearGradient>
+      </defs>
+      <circle class="progress-bg" cx="95" cy="95" r="85"/>
+      <circle class="progress-arc" id="progressArc" cx="95" cy="95" r="85"/>
+    </svg>
+    <div class="progress-text-center">
+      <span class="progress-pct" id="progressPct">0%</span>
+      <span class="progress-lbl-sm">concluído</span>
+    </div>
+  </div>
+  <div class="progress-stats reveal">
+    <div class="stat-item">
+      <div class="stat-num" id="statDone">0</div>
+      <div class="stat-lbl">Feitas</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="statTotal">0</div>
+      <div class="stat-lbl">Total</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="statDays">0</div>
+      <div class="stat-lbl">Dias ativos</div>
+    </div>
+  </div>
+</div>
+
+<!-- BANNER -->
+<div class="banner-section">
+  <div class="banner-inner">
+    <p class="banner-ornament reveal">🌸 &nbsp; parabéns &nbsp; 🌸</p>
+    <h2 class="banner-title reveal">Você chegou ao final do<br><em>Calendário BEAUTER</em></h2>
+    <div class="banner-divider reveal"></div>
+    <p class="banner-text reveal">Como você se saiu nesses 30 dias? Você conseguiu cumprir as tarefas, postar com consistência e aparecer mais?</p>
+    <p class="banner-text reveal">O mais importante não foi fazer tudo perfeito. <strong style="color:var(--gold-light);">O mais importante foi ter decidido evoluir.</strong></p>
+    <p class="banner-text reveal">Muitas profissionais passam meses dizendo que vão começar… mas nunca começam. <strong style="color:white;">Você começou.</strong> Isso já te coloca na frente de muitas pessoas.</p>
+    <div class="banner-highlight reveal">
+      "Quem mostra o trabalho cresce.<br>
+      Quem cresce se torna referência.<br>
+      E quem se torna referência deixa de disputar clientes.<br><br>
+      <strong>Clientes começam a disputar você.</strong>"
+    </div>
+    <p class="banner-text reveal">Continue aparecendo. Continue mostrando seu trabalho. Continue construindo a BEAUTER que você decidiu se tornar. ✨</p>
+    <p class="banner-cta-text reveal">✦ &nbsp; não pare agora &nbsp; ✦</p>
+  </div>
+</div>
+
+<!-- BANNER UNIVERSO BEAUTER -->
+<div class="universo-banner-section">
+  <div class="univ-banner-frame reveal">
+    <div class="univ-corner-tr"></div>
+    <div class="univ-corner-bl"></div>
+    <p class="univ-banner-eyebrow">Exclusivo para quem quer mais</p>
+    <h2 class="univ-banner-title">Só para quem quer se tornar<br>uma Profissional Disputada</h2>
+    <div class="univ-banner-divider"></div>
+    <p class="univ-banner-body">
+      Clique aqui e faça parte do <strong>Universo Beauter</strong> — onde<br>
+      profissionais de elite constroem carreiras extraordinárias
+    </p>
+    <a href="https://anaju08.github.io/Univer_Beauter/" target="_blank" class="univ-banner-btn">
+      <span class="univ-banner-btn-gem">✦</span>
+      <span>Entrar no Universo Beauter</span>
+      <span class="univ-banner-btn-gem">✦</span>
+    </a>
+    <p class="univ-banner-footer">A sua transformação começa aqui</p>
+  </div>
+</div>
+
+<!-- SOCIAL -->
+<div class="social-section">
+  <h2 class="section-title reveal">Siga a <em>Angela Moraes</em></h2>
+  <p class="gold-dots reveal">✦ ✦ ✦</p>
+  <div class="social-links reveal">
+    <a href="https://www.instagram.com/angelamoraesstudio?igsh=MXg0MzJ0aTZtMTZkbw==" target="_blank" class="social-btn instagram">
+      <!-- Instagram SVG icon -->
+      <svg class="social-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="social-btn-label">Instagram</span>
+    </a>
+    <a href="https://www.tiktok.com/@angela.moraes27?_r=1&_t=ZS-94ZqaPrpQXM" target="_blank" class="social-btn tiktok">
+      <!-- TikTok SVG icon -->
+      <svg class="social-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.73a4.85 4.85 0 01-1.01-.04z"/>
+      </svg>
+      <span class="social-btn-label">TikTok</span>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>por <span>Angela Moraes</span> &nbsp;🌸</p>
+</footer>
+
+<script>
+// ═══════════════ DATA ═══════════════
+const days = [
+  { phrase: "Hoje eu começo a mostrar ao mundo a profissional que estou me tornando.", tasks: { "Stories 📱": ["Grave um bom dia chegando para trabalhar", "Mostre seu espaço ou materiais de trabalho", "Mostre bastidores de um atendimento", "Mostre um resultado que você ama"], "Reels 🎬": ["Antes e depois de cliente"] } },
+  { phrase: "Quem aparece com consistência se torna lembrada.", tasks: { "Stories 📱": ["Mostre bastidor de atendimento", "Faça enquete: você já fez esse procedimento?", "Dê uma dica rápida (ex: como fazer o resultado durar mais)"], "Carrossel 🖼️": ["3 erros que podem estragar o resultado de um procedimento de beleza"] } },
+  { phrase: "Crescimento é construído um dia de cada vez.", tasks: { "Stories 📱": ["Mostre algo simples da sua rotina de trabalho", "Mostre algo que você está aprendendo ou estudando"], "Feed 🌸": ["Hoje não precisa postar no feed — descanse e adiante conteúdo!"] } },
+  { phrase: "Quando você ensina, você se posiciona como especialista.", tasks: { "Stories 📱": ["Mostre preparação de cliente", "Grave de 1 a 3 stories explicando um procedimento", "Mostre o resultado final"], "Reels 🎬": ["Vídeo de transformação"] } },
+  { phrase: "Seu trabalho merece ser visto.", tasks: { "Stories 📱": ["Mostre bastidores", "Faça enquete: resultado natural ou mais marcante?", "Dica rápida (ex: como cuidar do resultado em casa)"], "Feed 🌸": ["Foto de resultado com legenda contando a história da cliente"] } },
+  { phrase: "Conexão também atrai clientes.", tasks: { "Stories 📱": ["Mostre um momento pessoal simples — café, passeio ou família"], "Feed 🌸": ["Sem post no feed hoje 🌷"] } },
+  { phrase: "Resultados falam por você.", tasks: { "Stories 📱": ["Mostre bastidores do atendimento", "Mostre resultado", "Agradeça às clientes da semana"], "Reels 🎬": ["Antes e depois"] } },
+  { phrase: "Profissionais que explicam seu trabalho geram mais confiança.", tasks: { "Stories 📱": ["Mostre materiais ou produtos que usa", "Explique para que serve um deles", "Faça enquete: você gosta de ver bastidores?"], "Carrossel 🖼️": ["Cuidados para manter o resultado bonito por mais tempo"] } },
+  { phrase: "Consistência cria autoridade.", tasks: { "Stories 📱": ["Mostre bastidor simples", "Pergunte: você tem alguma dúvida sobre procedimentos?"], "Feed 🌸": ["Sem post no feed hoje 🌷"] } },
+  { phrase: "Cada conteúdo aproxima você de novas clientes.", tasks: { "Stories 📱": ["Mostre preparação de cliente", "Grave um mini tutorial (ex: como preparo o atendimento)", "Mostre resultado"], "Reels 🎬": ["Transformação"] } },
+  { phrase: "Quem compartilha conhecimento se destaca.", tasks: { "Stories 📱": ["Enquete: amanhã vou postar uma dica — qual vocês querem?", "Mostre bastidor"], "Feed 🌸": ["Foto de resultado"] } },
+  { phrase: "A constância constrói sua reputação.", tasks: { "Stories 📱": ["Mostre rotina de trabalho", "Mostre algo que você gosta no seu trabalho"], "Reels 🎬": ["Antes e depois"] } },
+  { phrase: "Ensinar cria autoridade.", tasks: { "Stories 📱": ["Mostre bastidores", "Dica rápida (ex: como evitar que o resultado perca brilho)", "Mostre resultado"], "Carrossel 🖼️": ["Mitos e verdades sobre procedimentos de beleza"] } },
+  { phrase: "Clientes também se conectam com quem você é.", tasks: { "Stories 📱": ["Mostre um momento pessoal — passeio, descanso ou família"], "Feed 🌸": ["Sem post no feed hoje 🌷"] } },
+  { phrase: "Sua evolução merece ser mostrada.", tasks: { "Stories 📱": ["Mostre bastidor do atendimento", "Explique um procedimento em 1 ou 2 stories", "Mostre resultado"], "Reels 🎬": ["Transformação"] } },
+  { phrase: "Cada conteúdo fortalece sua presença.", tasks: { "Stories 📱": ["Enquete: você já fez algum procedimento de beleza?", "Dica rápida (ex: cuidados após procedimento)"], "Feed 🌸": ["Resultado bonito"] } },
+  { phrase: "Disciplina cria resultados.", tasks: { "Stories 📱": ["Mostre sua rotina profissional", "Mostre bastidor simples"], "Feed 🌸": ["Sem post no feed hoje 🌷"] } },
+  { phrase: "Quem mostra o processo conquista confiança.", tasks: { "Stories 📱": ["Mostre preparação de cliente", "Mostre bastidor", "Mostre resultado"], "Reels 🎬": ["Antes e depois"] } },
+  { phrase: "Educar o público atrai clientes melhores.", tasks: { "Stories 📱": ["Dica rápida (ex: como cuidar da pele após procedimento)", "Mostre bastidor", "Pergunte: qual sua maior dificuldade com beleza?"], "Carrossel 🖼️": ["Sinais de que está na hora de fazer um procedimento"] } },
+  { phrase: "Grandes resultados nascem de pequenas ações diárias.", tasks: { "Stories 📱": ["Mostre algo simples do seu dia"], "Feed 🌸": ["Sem post no feed hoje 🌷"] } },
+  { phrase: "Você está construindo sua autoridade.", tasks: { "Stories 📱": ["Mostre rotina de trabalho", "Mostre bastidor", "Mostre resultado"], "Reels 🎬": ["Transformação"] } },
+  { phrase: "Profissionais que interagem crescem mais rápido.", tasks: { "Stories 📱": ["Enquete: resultado natural ou mais intenso?", "Dica rápida (ex: como manter brilho)"], "Feed 🌸": ["Resultado ou cliente feliz"] } },
+  { phrase: "Explicar seu trabalho valoriza seu serviço.", tasks: { "Stories 📱": ["Mostre bastidores", "Explique um procedimento", "Mostre resultado"], "Reels 🎬": ["Antes e depois"] } },
+  { phrase: "Equilíbrio também faz parte da jornada.", tasks: { "Stories 📱": ["Mostre um momento pessoal 🌷"], "Feed 🌸": ["Sem post no feed hoje 🌷"] } },
+  { phrase: "Seu conhecimento é um diferencial.", tasks: { "Stories 📱": ["Dica rápida (ex: como fazer o resultado durar mais)", "Mostre bastidor", "Mostre resultado"], "Carrossel 🖼️": ["Benefícios de cuidar da beleza regularmente"] } },
+  { phrase: "Seu trabalho merece reconhecimento.", tasks: { "Stories 📱": ["Mostre rotina de trabalho", "Mostre bastidor", "Mostre resultado"], "Reels 🎬": ["Transformação"] } },
+  { phrase: "Cuidar de você também faz parte da sua jornada.", tasks: { "Stories 📱": ["Mostre algo que te inspira ou um momento pessoal 🌸"], "Feed 🌸": ["Sem post no feed hoje 🌷"] } },
+  { phrase: "A constância transforma profissionais comuns em referências.", tasks: { "Stories 📱": ["Mostre bastidor", "Dica rápida (ex: cuidados para manter resultado bonito)", "Mostre resultado"], "Reels 🎬": ["Antes e depois"] } },
+  { phrase: "Responder dúvidas aproxima clientes.", tasks: { "Stories 📱": ["Pergunte: qual sua maior dúvida sobre procedimentos?", "Mostre bastidor"], "Feed 🌸": ["Resultado bonito"] } },
+  { phrase: "Hoje você não é mais a mesma profissional que começou este desafio. ✨", tasks: { "Stories 📱": ["Mostre bastidores do dia", "Mostre resultado", "Agradeça quem acompanhou o desafio 🌸"], "Reels 🎬": ["Vídeo com várias transformações ou resultados do mês"] } }
+];
+
+const dayColors = [
+  '#e8a0b0','#e8b87a','#90c98a','#7ec4d4','#9fafe8','#c49fe0','#e8c47a',
+  '#e8a0b0','#e8b87a','#90c98a','#7ec4d4','#9fafe8','#c49fe0','#e8c47a',
+  '#e8a0b0','#e8b87a','#90c98a','#7ec4d4','#9fafe8','#c49fe0','#e8c47a',
+  '#e8a0b0','#e8b87a','#90c98a','#7ec4d4','#9fafe8','#c49fe0','#e8c47a',
+  '#e8a0b0','#e8b87a'
+];
+
+// Load state from localStorage
+let taskState = {};
+try { taskState = JSON.parse(localStorage.getItem('beauter_tasks') || '{}'); } catch(e) {}
+
+function saveState() {
+  try { localStorage.setItem('beauter_tasks', JSON.stringify(taskState)); } catch(e) {}
+}
+
+function getTotalTasks() {
+  return days.reduce((sum, d) => sum + Object.values(d.tasks).reduce((s, arr) => s + arr.length, 0), 0);
+}
+function getDoneTasks() { return Object.values(taskState).filter(Boolean).length; }
+function getActiveDays() {
+  const s = new Set();
+  Object.keys(taskState).forEach(k => { if (taskState[k]) s.add(k.split('|')[0]); });
+  return s.size;
+}
+
+function updateProgress() {
+  const total = getTotalTasks();
+  const done = getDoneTasks();
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statDays').textContent = getActiveDays();
+
+  const circ = 2 * Math.PI * 85;
+  const offset = circ - (pct / 100) * circ;
+  document.getElementById('progressArc').style.strokeDasharray = circ;
+  document.getElementById('progressArc').style.strokeDashoffset = offset;
+}
+
+function updateDayBar(di) {
+  const day = days[di];
+  const allTasks = Object.entries(day.tasks).flatMap(([sec, arr]) =>
+    arr.map((_, ti) => `${di}|${sec}|${ti}`)
+  );
+  const total = allTasks.length;
+  const done = allTasks.filter(k => taskState[k]).length;
+  const pct = total > 0 ? (done / total) * 100 : 0;
+  const bar = document.getElementById(`daybar-${di}`);
+  if (bar) bar.style.width = pct + '%';
+}
+
+function buildCalendar() {
+  const grid = document.getElementById('daysGrid');
+  days.forEach((day, di) => {
+    const card = document.createElement('div');
+    card.className = 'day-card reveal';
+    card.style.transitionDelay = (di % 4) * 0.05 + 's';
+    card.id = `day-card-${di}`;
+
+    const color = dayColors[di];
+
+    // Header (click to toggle)
+    const header = document.createElement('div');
+    header.className = 'day-header';
+    header.innerHTML = `
+      <div class="day-num" style="background:${color}">${String(di+1).padStart(2,'0')}</div>
+      <div class="day-meta">
+        <div class="day-label">Dia ${di+1}</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    `;
+    header.addEventListener('click', () => card.classList.toggle('open'));
+
+    // Phrase
+    const phrase = document.createElement('div');
+    phrase.className = 'day-phrase';
+    phrase.innerHTML = `<em>"${day.phrase}"</em>`;
+
+    // Tasks wrapper
+    const tasksWrap = document.createElement('div');
+    tasksWrap.className = 'day-tasks-wrap';
+
+    Object.entries(day.tasks).forEach(([section, items]) => {
+      const sec = document.createElement('div');
+      sec.className = 'task-section';
+      const lbl = document.createElement('div');
+      lbl.className = 'task-section-label';
+      lbl.textContent = section;
+      sec.appendChild(lbl);
+
+      items.forEach((task, ti) => {
+        const key = `${di}|${section}|${ti}`;
+        const item = document.createElement('label');
+        item.className = 'task-item' + (taskState[key] ? ' done' : '');
+        item.style.cursor = 'pointer';
+
+        // Use real checkbox for cross-platform support
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'task-checkbox';
+        cb.checked = !!taskState[key];
+
+        const txt = document.createElement('span');
+        txt.className = 'task-text';
+        txt.textContent = task;
+
+        // Prevent double firing on mobile
+        cb.addEventListener('change', (e) => {
+          taskState[key] = cb.checked;
+          item.classList.toggle('done', cb.checked);
+          saveState();
+          updateProgress();
+          updateDayBar(di);
+        });
+
+        item.appendChild(cb);
+        item.appendChild(txt);
+        sec.appendChild(item);
+      });
+
+      tasksWrap.appendChild(sec);
+    });
+
+    // Mini progress bar
+    const barWrap = document.createElement('div');
+    barWrap.className = 'day-done-bar';
+    const barFill = document.createElement('div');
+    barFill.className = 'day-done-fill';
+    barFill.id = `daybar-${di}`;
+    barWrap.appendChild(barFill);
+    tasksWrap.appendChild(barWrap);
+
+    card.appendChild(header);
+    card.appendChild(phrase);
+    card.appendChild(tasksWrap);
+    grid.appendChild(card);
+
+    // Init bar
+    updateDayBar(di);
+  });
+}
+
+// ═══════════════ ACCORDION ═══════════════
+function toggleAccordion(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+
+// ═══════════════ SPARKLES ═══════════════
+const canvas = document.getElementById('sparkle-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resizeCanvas() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const sparkleColors = [
+  [201,168,76],   // gold
+  [228,201,126],  // gold light
+  [249,200,216],  // rose
+  [245,168,196],  // rose deep
+  [253,220,235],  // pale rose
+  [201,168,76],   // gold (extra weight)
+  [249,200,216],  // rose (extra weight)
+  [240,160,190],  // hot rose
+  [138,104,32],   // gold dark
+  [255,235,245],  // blush
+];
+
+function makeParticle(fromBottom) {
+  const c = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+  return {
+    x: Math.random() * W,
+    y: fromBottom ? H + Math.random() * 60 : Math.random() * H,
+    size: 1.2 + Math.random() * 4.2,
+    vy: 0.3 + Math.random() * 1.2,
+    vx: (Math.random() - 0.5) * 0.5,
+    op: 0.1 + Math.random() * 0.75,
+    opDir: 0.004 + Math.random() * 0.013,
+    r: c[0], g: c[1], b: c[2],
+    rot: Math.random() * Math.PI * 2,
+    rotV: (Math.random() - 0.5) * 0.05,
+    type: Math.random() > 0.45 ? 'diamond' : 'star'
+  };
+}
+
+for (let i = 0; i < 110; i++) particles.push(makeParticle(false));
+
+function drawStar(x, y, r, op) {
+  ctx.save();
+  ctx.globalAlpha = op;
+  ctx.beginPath();
+  for (let i = 0; i < 4; i++) {
+    const a = (i / 4) * Math.PI * 2;
+    const r2 = r * 0.3;
+    ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
+    ctx.lineTo(x + Math.cos(a + Math.PI/4) * r2, y + Math.sin(a + Math.PI/4) * r2);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function animateSparkles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach((p, i) => {
+    p.y -= p.vy;
+    p.x += p.vx;
+    p.op += p.opDir;
+    p.rot += p.rotV;
+    if (p.op > 0.88 || p.op < 0.06) p.opDir *= -1;
+    if (p.y < -12) particles[i] = makeParticle(true);
+    if (p.x < -10) p.x = W + 10;
+    if (p.x > W + 10) p.x = -10;
+
+    const color = `rgba(${p.r},${p.g},${p.b},${p.op})`;
+    ctx.fillStyle = color;
+
+    if (p.type === 'diamond') {
+      ctx.save();
+      ctx.globalAlpha = p.op;
+      ctx.fillStyle = color;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+      ctx.restore();
+    } else {
+      drawStar(p.x, p.y, p.size, p.op);
+    }
+  });
+  requestAnimationFrame(animateSparkles);
+}
+animateSparkles();
+
+// ═══════════════ SCROLL REVEAL ═══════════════
+function checkReveal() {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 40) el.classList.add('visible');
+  });
+}
+window.addEventListener('scroll', checkReveal, { passive: true });
+
+// ═══════════════ SPLASH SPARKLES ═══════════════
+const splashCanvas = document.getElementById('splash-canvas');
+const sctx = splashCanvas.getContext('2d');
+let sW, sH, sParticles = [];
+
+function resizeSplash() {
+  sW = splashCanvas.width = splashCanvas.offsetWidth;
+  sH = splashCanvas.height = splashCanvas.offsetHeight;
+}
+
+function makeSplashParticle() {
+  const c = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+  return {
+    x: Math.random() * sW,
+    y: Math.random() * sH + sH,
+    size: 1.5 + Math.random() * 4,
+    vy: 0.4 + Math.random() * 1.3,
+    vx: (Math.random() - 0.5) * 0.4,
+    op: 0.1 + Math.random() * 0.8,
+    opDir: 0.006 + Math.random() * 0.015,
+    r: c[0], g: c[1], b: c[2],
+    rot: Math.random() * Math.PI * 2,
+    rotV: (Math.random() - 0.5) * 0.05,
+    type: Math.random() > 0.4 ? 'diamond' : 'star'
+  };
+}
+
+function initSplashSparkles() {
+  resizeSplash();
+  for (let i = 0; i < 90; i++) {
+    const p = makeSplashParticle();
+    p.y = Math.random() * sH;
+    sParticles.push(p);
+  }
+  animateSplash();
+}
+
+function animateSplash() {
+  if (!document.getElementById('splash') || document.getElementById('splash').classList.contains('hidden')) return;
+  sctx.clearRect(0, 0, sW, sH);
+  sParticles.forEach((p, i) => {
+    p.y -= p.vy;
+    p.x += p.vx;
+    p.op += p.opDir;
+    p.rot += p.rotV;
+    if (p.op > 0.88 || p.op < 0.06) p.opDir *= -1;
+    if (p.y < -12) sParticles[i] = makeSplashParticle();
+    const color = `rgba(${p.r},${p.g},${p.b},${p.op})`;
+    sctx.fillStyle = color;
+    if (p.type === 'diamond') {
+      sctx.save();
+      sctx.globalAlpha = p.op;
+      sctx.fillStyle = color;
+      sctx.translate(p.x, p.y);
+      sctx.rotate(p.rot);
+      sctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+      sctx.restore();
+    } else {
+      sctx.save();
+      sctx.globalAlpha = p.op;
+      sctx.fillStyle = color;
+      sctx.beginPath();
+      for (let j = 0; j < 4; j++) {
+        const a = (j/4)*Math.PI*2;
+        sctx.lineTo(p.x + Math.cos(a)*p.size, p.y + Math.sin(a)*p.size);
+        sctx.lineTo(p.x + Math.cos(a+Math.PI/4)*p.size*0.3, p.y + Math.sin(a+Math.PI/4)*p.size*0.3);
+      }
+      sctx.closePath();
+      sctx.fill();
+      sctx.restore();
+    }
+  });
+  requestAnimationFrame(animateSplash);
+}
+
+// ═══════════════ PWA MANIFEST ═══════════════
+function injectPWAManifest() {
+  const manifest = {
+    name: "Calendário BEAUTER",
+    short_name: "BEAUTER",
+    description: "Desafio de 30 dias para transformar seu Instagram",
+    start_url: "./",
+    display: "standalone",
+    background_color: "#f9c8d8",
+    theme_color: "#c9a84c",
+    orientation: "portrait",
+    icons: [
+      { src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQ4IiBmaWxsPSIjZjljOGQ4Ii8+PHJlY3QgeD0iOCIgeT0iOCIgd2lkdGg9IjE3NiIgaGVpZ2h0PSIxNzYiIHJ4PSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhODRjIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNSIvPjx0ZXh0IHg9Ijk2IiB5PSI3MiIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiM4YTY4MjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIzIiBmb250LXdlaWdodD0iNzAwIj5DQUxFTkTDgVJJTzwvdGV4dD48dGV4dCB4PSI5NiIgeT0iMTMyIiBmb250LWZhbWlseT0iR2VvcmdpYSxzZXJpZiIgZm9udC1zaXplPSI0OCIgZmlsbD0iI2M5YTg0YyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zdHlsZT0iaXRhbGljIiBmb250LXdlaWdodD0iNzAwIj5CPC90ZXh0Pjwvc3ZnPg==", sizes: "192x192", type: "image/svg+xml" }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = url;
+  document.head.appendChild(link);
+}
+
+// ═══════════════ INIT ═══════════════
+window.addEventListener('load', () => {
+  injectPWAManifest();
+  initSplashSparkles();
+  buildCalendar();
+  updateProgress();
+  setTimeout(checkReveal, 200);
+
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hidden');
+  }, 2800);
+});
+</script>
+</body>
+</html>
